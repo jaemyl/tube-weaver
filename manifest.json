@@ -1,0 +1,26 @@
+{
+    "name": "Tube Weaver",
+    "version": "1.0",
+    "description": "Collect Youtube clips to weave",
+    "content_scripts": [
+	{
+	    "matches": ["https://www.youtube.com/*"],
+	    "js": ["page.js"]
+	}
+    ],
+    "browser_action": {
+	"default_title": "Tube-Weaver",
+	"default_icon": "images/bear.png",
+	"default_popup": "popup.html"
+    },
+    "web_accessible_resources": [
+	"images/*",
+	"injected.js"
+    ],
+    "icons": {
+	"16": "images/bear.png",
+	"48": "images/bear.png",
+	"128": "images/bear.png"
+    },
+    "manifest_version": 2
+}
