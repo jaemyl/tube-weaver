@@ -6,7 +6,24 @@ function sendMessage(msg) {
   });
 }
 
+let run = false
+
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelector('#inject').addEventListener(
-    'click', () => sendMessage('inject'))
-  });
+    const button = document.querySelector('.button')
+    button.addEventListener('click', () => {
+	run = !run
+	
+	let msg = ''
+	if (run) {
+	    msg = 'run'
+	    button.textContent = 'No Run'
+	}
+	else {
+	    msg = 'norun'
+	    button.textContent = 'Run'
+	}
+	sendMessage(msg)
+	
+	button.classList.toggle('run')
+    })
+});

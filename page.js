@@ -3,15 +3,53 @@ chrome.runtime.onConnect.addListener(function(port) {
 })
 
 const bearUrl = chrome.runtime.getURL('images/bear.png')
+const DISPATCH_INTERVAL = 3000 // 3 sec
+let run = true
+let elem = null
+let event = null
+
+function makeEvent() {
+    const event = document.createEvent('MouseEvents')
+    event.initMouseEvent(
+	'click',
+	true, // canBubble
+	false, // cancelable
+	window,
+	1,
+	200, // screenX
+	200, // screenY
+	200, // clientX
+	200, // clientY
+	false,
+	false,
+	false,
+	false,
+	2, // right button
+	null
+    )
+    return event
+}
+
+function init() {
+    console.log('init()')
+    elem = document.querySelector('video')
+    console.log('elem:' + elem)
+    event = makeEvent()
+    console.log('event:' + event)
+}
 
 function onMessage(msg) {
-  console.log(`onMessage(${msg})`)
-  if (msg === 'inject') {
-    inject()
-  }
-  else {
-    console.log('unexpected msg')
-  }
+    console.log(`onMessage(${msg})`)
+    if (msg === 'run') {
+	run = true
+	dispatch()
+    }
+    else if (msg == 'norun') {
+	run = false
+    }
+    else {
+	console.log('unexpected msg')
+    }
 }
 
 function inject() {
@@ -21,6 +59,17 @@ function inject() {
     s.src = chrome.extension.getURL('injected.js')
     document.head.appendChild(s)
 }
+
+function dispatch() {
+    if (run) {
+	console.log('dispatch()')
+	setTimeout(dispatch, DISPATCH_INTERVAL)
+	
+	elem.dispatchEvent(event)
+    }
+}
+
+init()
 
 console.log('tube-weaver started')
 
