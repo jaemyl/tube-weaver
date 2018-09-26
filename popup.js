@@ -9,21 +9,12 @@ function sendMessage(msg) {
 let run = false
 
 document.addEventListener('DOMContentLoaded', function() {
-    const button = document.querySelector('.button')
-    button.addEventListener('click', () => {
-	run = !run
-	
-	let msg = ''
-	if (run) {
-	    msg = 'run'
-	    button.textContent = 'No Run'
-	}
-	else {
-	    msg = 'norun'
-	    button.textContent = 'Run'
-	}
-	sendMessage(msg)
-	
-	button.classList.toggle('run')
+    const startButton = document.querySelector('.button.start')
+    startButton.addEventListener('click', () => {
+		sendMessage('start')
+	})
+	const stopButton = document.querySelector('.button.stop')
+    stopButton.addEventListener('click', () => {
+		sendMessage('stop')
     })
 });

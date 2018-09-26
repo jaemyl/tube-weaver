@@ -4,28 +4,28 @@ chrome.runtime.onConnect.addListener(function(port) {
 
 const bearUrl = chrome.runtime.getURL('images/bear.png')
 const DISPATCH_INTERVAL = 3000 // 3 sec
-let run = true
+let run = false
 let elem = null
 let event = null
 
 function makeEvent() {
     const event = document.createEvent('MouseEvents')
     event.initMouseEvent(
-	'click',
-	true, // canBubble
-	false, // cancelable
-	window,
-	1,
-	200, // screenX
-	200, // screenY
-	200, // clientX
-	200, // clientY
-	false,
-	false,
-	false,
-	false,
-	2, // right button
-	null
+        'click',
+        true, // canBubble
+        false, // cancelable
+        window,
+        1,
+        200, // screenX
+        200, // screenY
+        200, // clientX
+        200, // clientY
+        false,
+        false,
+        false,
+        false,
+        2, // right button
+        null
     )
     return event
 }
@@ -40,15 +40,17 @@ function init() {
 
 function onMessage(msg) {
     console.log(`onMessage(${msg})`)
-    if (msg === 'run') {
-	run = true
-	dispatch()
+    if (msg === 'start') {
+        if (run == false) {
+            run = true
+            dispatch()
+        }
     }
-    else if (msg == 'norun') {
-	run = false
+    else if (msg == 'stop') {
+	    run = false
     }
     else {
-	console.log('unexpected msg')
+	    console.log('unexpected msg')
     }
 }
 
@@ -62,10 +64,10 @@ function inject() {
 
 function dispatch() {
     if (run) {
-	console.log('dispatch()')
-	setTimeout(dispatch, DISPATCH_INTERVAL)
-	
-	elem.dispatchEvent(event)
+        console.log('dispatch()')
+        setTimeout(dispatch, DISPATCH_INTERVAL)
+        
+        elem.dispatchEvent(event)
     }
 }
 
